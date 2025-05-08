@@ -1,3 +1,4 @@
+import 'package:cinemapedia/presentation/widgets/shared/full_screen_loader.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cinemapedia/presentation/providers/providers.dart';
@@ -27,16 +28,22 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     super.initState();
 
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(upcomingMoviesProvider.notifier).loadNextPage();
+    ref.read(topRatedMoviesProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
+    final initialLoading = ref.watch(initialLoadingProvider);
+
+    if (initialLoading) return FullScreenLoader();
+
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final moviesSlideshow = ref.watch(moviesSlideshowProvider);
-
-    if (moviesSlideshow.isEmpty) {
-      return Center(child: CircularProgressIndicator(strokeWidth: 2));
-    }
+    final popularMovies = ref.watch(popularMoviesProvider);
+    final upcomingMovies = ref.watch(upcomingMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedMoviesProvider);
 
     return CustomScrollView(
       slivers: [
@@ -55,16 +62,23 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                 ),
 
                 MovieHorizontalListview(
-                  movies: nowPlayingMovies,
+                  movies: popularMovies,
                   title: 'Populares',
-                  loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                  loadNextPage: () => ref.read(popularMoviesProvider.notifier).loadNextPage(),
                 ),
 
                 MovieHorizontalListview(
-                  movies: nowPlayingMovies,
+                  movies: upcomingMovies,
+                  title: 'En cartelera',
+                  subTitle: 'Pronto',
+                  loadNextPage: () => ref.read(upcomingMoviesProvider.notifier).loadNextPage(),
+                ),
+
+                MovieHorizontalListview(
+                  movies: topRatedMovies,
                   title: 'Mejor calificadas',
                   subTitle: 'Desde siempre',
-                  loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                  loadNextPage: () => ref.read(topRatedMoviesProvider.notifier).loadNextPage(),
                 ),
               ],
             );
