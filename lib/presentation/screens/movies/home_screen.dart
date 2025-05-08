@@ -12,10 +12,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _HomeView(),
-      bottomNavigationBar: CustomBottomNavigationbar(),
-    );
+    return Scaffold(body: _HomeView(), bottomNavigationBar: CustomBottomNavigationbar());
   }
 }
 
@@ -41,29 +38,38 @@ class _HomeViewState extends ConsumerState<_HomeView> {
       return Center(child: CircularProgressIndicator(strokeWidth: 2));
     }
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        CustomAppbar(),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(floating: true, title: CustomAppbar()),
+        SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return Column(
+              children: [
+                MoviesSlideshow(movies: moviesSlideshow),
 
-        MoviesSlideshow(movies: moviesSlideshow),
+                MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'En cines',
+                  subTitle: 'Lunes 20',
+                  loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                ),
 
-        MovieHorizontalListview(
-          movies: nowPlayingMovies,
-          title: 'En cines',
-          subTitle: 'Lunes 20',
+                MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'Populares',
+                  loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                ),
+
+                MovieHorizontalListview(
+                  movies: nowPlayingMovies,
+                  title: 'Mejor calificadas',
+                  subTitle: 'Desde siempre',
+                  loadNextPage: () => ref.read(nowPlayingMoviesProvider.notifier).loadNextPage(),
+                ),
+              ],
+            );
+          }, childCount: 1),
         ),
-
-        // Expanded(
-        //   child: ListView.builder(
-        //     padding: EdgeInsets.zero,
-        //     itemCount: nowPlayingMovies.length,
-        //     itemBuilder: (context, index) {
-        //       final movie = nowPlayingMovies[index];
-        //       return ListTile(title: Text(movie.title));
-        //     },
-        //   ),
-        // ),
       ],
     );
   }

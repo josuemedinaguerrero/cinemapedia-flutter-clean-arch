@@ -9,19 +9,16 @@ class CustomAppbar extends StatelessWidget {
     final titleStyle = Theme.of(context).textTheme.titleMedium;
 
     return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        child: SizedBox(
-          width: double.infinity,
-          child: Row(
-            children: [
-              Icon(Icons.movie_outlined, color: colors.primary),
-              SizedBox(width: 5),
-              Text('Cinemapedia', style: titleStyle),
-              Spacer(),
-              IconButton(onPressed: () {}, icon: Icon(Icons.search)),
-            ],
-          ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Row(
+          children: [
+            Icon(Icons.movie_outlined, color: colors.primary),
+            SizedBox(width: 5),
+            Text('Cinemapedia', style: titleStyle),
+            Spacer(),
+            IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+          ],
         ),
       ),
     );
