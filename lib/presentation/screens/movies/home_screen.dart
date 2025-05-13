@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cinemapedia/presentation/widgets/widgets.dart';
@@ -12,6 +13,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: currentChild, bottomNavigationBar: CustomBottomNavigationbar(currentChild: currentChild));
+    final location = GoRouterState.of(context).uri.toString();
+    final isMovieDetailsRouter = location.contains('/movie/');
+
+    return Scaffold(
+      body: currentChild,
+      bottomNavigationBar: isMovieDetailsRouter ? null : FadeIn(child: CustomBottomNavigationbar(currentChild: currentChild)),
+    );
   }
 }
