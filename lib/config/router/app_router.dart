@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import 'package:cinemapedia/presentation/screens/screens.dart';
 import 'package:cinemapedia/presentation/views/views.dart';
 
@@ -27,7 +29,9 @@ final appRouter = GoRouter(
             ),
           ],
         ),
-        StatefulShellBranch(routes: [GoRoute(path: '/categories', builder: (context, state) => FavoritesView())]),
+        StatefulShellBranch(
+          routes: [GoRoute(path: '/categories', builder: (context, state) => Center(child: Text('PANTALLA DE CATEGORÍAS')))],
+        ),
         StatefulShellBranch(routes: [GoRoute(path: '/favorites', builder: (context, state) => FavoritesView())]),
       ],
     ),
